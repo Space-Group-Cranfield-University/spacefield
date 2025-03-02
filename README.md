@@ -6,7 +6,7 @@ Currently, the library contains the necessary code to replicate the results in t
 
 All the scripts required to replicate the results of the paper can be found in the <kbd>examples</kbd> folder, where further information is available.
 
-# Install
+# Installation
 - Download the library as a ZIP file to a local folder.
 - Extract the ZIP file content.
 - Open MATLAB and select the local folder as the main path of the workspace.
