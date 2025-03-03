@@ -7,7 +7,7 @@ Currently, the library contains the necessary code to replicate the results in t
 All the scripts required to replicate the results of the paper can be found in the <kbd>examples</kbd> folder.
 
 # Installation
-1. Download the [last release](https://github.com/Space-Group-Cranfield-University/spacefield/releases/tag/%23constellation-design) as a ZIP file to a local folder.
+1. Download the [last release](https://github.com/Space-Group-Cranfield-University/spacefield/releases) as a ZIP file to a local folder.
 2. Extract the ZIP file content.
 3. Open MATLAB and select the local folder as the main path of the workspace.
 4. Add the path to MATLAB, for instance using <kbd>addpath(genpath("spacefield-main"))</kbd> at the beginning of your script.
