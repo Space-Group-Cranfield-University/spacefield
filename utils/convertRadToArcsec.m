@@ -4,7 +4,5 @@
 %   in radians to an angle angleArcsec in arcseconds.
 
 function angleArcsec = convertRadToArcsec(angleRad)
-
     angleArcsec = angleRad * 206265;
-
 end

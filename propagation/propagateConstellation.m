@@ -10,14 +10,16 @@
 %
 %   Outputs:
 %   - Constellation : updated constellation structure.
+%
+%   NOTICE: ONLY works for circular constellation orbits
 
-function Constellation = propagateConstellation(timeVec, Constellation, Constants)
-    T = computeOrbitalPeriod(Constellation(1).a, Constants.MU_E);
+function Constellation = propagateConstellation(timeVec, Constellation, mu)
+    T = computeOrbitalPeriod(Constellation(1).a, mu);
     thetaVec = 2*pi * timeVec / T;
     for iTheta = 1:size(thetaVec, 2)
         for iSat = 1:size(Constellation, 2)
             currentKep = [Constellation(iSat).kep(1:5, 1); Constellation(iSat).kep(6, 1) + thetaVec(iTheta)];
-            Constellation(iSat).x(iTheta, :) = convertKepToCart(currentKep, Constants.MU_E)';
+            Constellation(iSat).x(iTheta, :) = convertKepToCart(currentKep, mu)';
         end
     end
 end

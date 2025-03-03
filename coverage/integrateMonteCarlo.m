@@ -23,12 +23,11 @@
 function integralMonteCarlo = integrateMonteCarlo(rSample, ...
                             integrandFunction)
 
-    nMonteCarlo = size(rSample, 1);
     integralMonteCarlo = 0;
-    for iMonteCarlo = 1:nMonteCarlo
-        integralMonteCarlo  = integralMoneCarlo + ...
-                            integrandFunction(rSample(iMonteCarlo));
+    for iMonteCarlo = 1:size(rSample, 1)
+        integralMonteCarlo  = integralMonteCarlo + ...
+                            integrandFunction(rSample(iMonteCarlo, :)');
     end
-    integralMonteCarlo = integralMonteCarlo / nMonteCarlo;
+    integralMonteCarlo = integralMonteCarlo / size(rSample, 1);
 
 end

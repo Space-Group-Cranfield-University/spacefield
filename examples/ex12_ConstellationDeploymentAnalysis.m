@@ -9,6 +9,8 @@
 % satellites is not evenly distributed on the orbit, a time averaging is
 % needed for computing the actual average coverage of the constellation.
 
+% This script replicates results shown in Fig. 24 at https://doi.org/10.1016/j.actaastro.2025.02.019
+
 clear
 clc
 close all
@@ -16,19 +18,19 @@ close all
 %% Settings
 
 Constants = initialiseAstronomicalConstants();
-ConstellationParameters.nOrb = 8;
-ConstellationParameters.nSatOrb = 50;
+ConstellationParameters.nOrb = 15;
+ConstellationParameters.nSatOrb = 27;
 ConstellationParameters.h = 460;
-ConstellationParameters.in = deg2rad(70);
-ConstellationParameters.raan = 0.0625;
-ConstellationParameters.dtheta = 0.0951;
+ConstellationParameters.in = deg2rad(77.1);
+ConstellationParameters.raan = deg2rad(0);
+ConstellationParameters.dtheta = deg2rad(8.5);
 CoverageOptions.coverageCount = 3; % Triple coverage
 R = Constants.R_E + 100;
 deltaR = 2000;
 SampleOptions.R_1 = Constants.R_E + 400;
 SampleOptions.R_2 = Constants.R_E + 1800;
-SampleOptions.N = 1e4;
-nSatLaunch = 10;
+SampleOptions.N = 1e3; % substitute 1e4
+nSatLaunch = 9;
 nSat = ConstellationParameters.nOrb * ConstellationParameters.nSatOrb;
 nLaunches = nSat / nSatLaunch;
 nSeriesOrb = nLaunches / ConstellationParameters.nOrb;
@@ -38,11 +40,14 @@ periodConstellation     = computeOrbitalPeriod(Constants.R_E + ConstellationPara
 nTimeSteps = 4;
 timeVec = linspace(0, periodConstellation, nTimeSteps + 1);
 timeVec = timeVec(1:(end-1));
-strategyVec = ["fullOrbitFirst", "subsequentOrbits", "subsequentOrbitsWithSkip",...
-            "randomSeries", "randomSats"];
+strategyVec = ["fullOrbitFirst", "subsequentOrbitsWithSkip",...
+            "randomSeries"];
 for k = 1:size(strategyVec, 2)
     legendVec(k) = "strategy "+string(k);
 end
+
+legendVec = ["fullOrbitFirst", "consecutiveOrbits", "random"];
+lastLaunch = ConstellationParameters.nOrb * ConstellationParameters.nSatOrb / nSatLaunch;
 
 %% Deployment strategy analysis
 
@@ -57,7 +62,7 @@ tic
 for k = 1:size(strategyVec, 2)
     strategy = strategyVec(k);
     coverageMat(k, :)   = deployConstellation(nLaunches, timeVec, Constellation, ...
-                        rTrgMat, R, deltaR, CoverageOptions, Constants, ...
+                        rTrgMat, R, deltaR, CoverageOptions, Constants.MU_E, ...
                         ConstellationParameters, nSatLaunch, nSeriesOrb, strategy);
     disp("Completed: "+k+" / "+size(strategyVec, 2)+", time: "+toc)
 end
@@ -66,12 +71,16 @@ end
 
 figure()
 for k = 1:size(strategyVec, 2)
-    plot(launchesVec, coverageMat(k, :) * 100 / coverageMat(k, end))
+    plot(launchesVec, coverageMat(k, :) * 100 / coverageMat(k, end), "LineWidth", 2)
     hold on
 end
-xlabel("Number of launches")
-ylabel("Triple coverage percentage [%]")
-legend(legendVec)
+fontsize(gca, 12, 'points')
+xlabel("number of launches", "FontSize", 14)
+ylabel("triple coverage efficiency [%]", "FontSize", 14) %  cov_{3,deployed)}/ cov_{3,full}
+title("Constellation deployment analysis")
+lgd = legend(legendVec);
+lgd.Location = "southeast";
+xlim([1, lastLaunch])
 
 %% Functions
 
@@ -88,7 +97,7 @@ end
 function flag = isVisibleNeglectingSun(rObs, rTrg, R, deltaR)
     flag = ~isWithinRange(rObs, rTrg, deltaR);
     if flag == 0
-        flag = isObstructed(rObs, rTrg, R);
+        flag = ~isAboveTheHorizon(rObs, rTrg, R);
     end
     flag = ~flag;
 end
@@ -113,8 +122,8 @@ function coverage = computeInstantaneousCoverage(rObsMat, rTrgMat, R, deltaR, Co
 end
 
 % Define average coverage function
-function coverage = computeCoverage(timeVec, Constellation, rTrgMat, R, deltaR, CoverageOptions, Constants)
-    Constellation = propagateConstellation(timeVec, Constellation, Constants);
+function coverage = computeCoverage(timeVec, Constellation, rTrgMat, R, deltaR, CoverageOptions, mu)
+    Constellation = propagateConstellation(timeVec, Constellation, mu);
     totalCoverage = 0;
     for timeStep = 1:size(timeVec, 2)
         rObsMat = convertStructToMat(Constellation, timeStep);
@@ -125,7 +134,7 @@ end
 
 % Function for getting deployment coverage vector
 function coverageVec    = deployConstellation(nLaunches, timeVec, Constellation, ...
-                        rTrgMat, R, deltaR, CoverageOptions, Constants, ...
+                        rTrgMat, R, deltaR, CoverageOptions, mu, ...
                         ConstellationParameters, nSatLaunch, nSeriesOrb, strategy)
     CurrentConstellation = [];
     coverageVec = nan(1, nLaunches);
@@ -175,6 +184,6 @@ function coverageVec    = deployConstellation(nLaunches, timeVec, Constellation,
         end
         CurrentConstellation = [CurrentConstellation, Constellation(seriesLaunched)];
         coverageVec(iLaunches)  = computeCoverage(timeVec, CurrentConstellation, ...
-                                rTrgMat, R, deltaR, CoverageOptions, Constants);
+                                rTrgMat, R, deltaR, CoverageOptions, mu);
     end
 end

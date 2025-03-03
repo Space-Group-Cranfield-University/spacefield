@@ -14,7 +14,7 @@
 %   Outputs:
 %   - flag      : true if the observer is blinded, false otherwise.
 
-function flag = isBlinded(rObs, rTrg, dirSun)
+function flag = isScatteringWeak(rObs, rTrg, dirSun)
 
     dr = rObs - rTrg;
     sun_reflection = dr' * dirSun;

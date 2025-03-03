@@ -12,12 +12,12 @@
 %   - flag      : true if the line of sight is obstructed, false otherwise.
 
 
-function flag = isObstructed(rObs, rTrg, R)
+function flag = isAboveTheHorizon(rObs, rTrg, R)
 
     dr = rObs - rTrg;
     dr_norm = norm(dr);
     r_obs_surf = sqrt(rObs' * rObs - R^2);
     relative_visibility = dr_norm * r_obs_surf - dr' * rObs;
-    flag = relative_visibility < 0;
+    flag = relative_visibility > 0;
 
 end

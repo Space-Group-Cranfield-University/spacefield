@@ -4,7 +4,7 @@
 %
 %   Inputs:
 %   - kep   : Keplerian parameters. [a, e, in, raan, aop, v]
-%   - mu    : gravitational parameter of the central body.
+%   - mu    : gravitational parameter of the central body. [km^3/s^2]
 %
 %   Outputs:
 %   - cart  : 6x1 vector containing cartesian coordinates (position and
