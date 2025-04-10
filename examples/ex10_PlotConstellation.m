@@ -14,15 +14,16 @@ close all
 %% Settings
 
 Constants = initialiseAstronomicalConstants();
-Parameters.nOrb = 10;
-Parameters.nSatOrb = 50;
-Parameters.h = 500;
-Parameters.in = deg2rad(70);
-Parameters.raan = 0;
+Parameters.nOrb = 1;
+Parameters.nSatOrb = 20;
+Parameters.h = 460;
+Parameters.in = deg2rad(97.3); % deg2rad(75), deg2rad(97.3)
+Parameters.raan = deg2rad(90);
 Parameters.nSatOrbActual = 5;
+Parameters.phase_factor = 1;
 areOrbitsOverlapped = 0;
 %Parameters.dtheta = deg2rad(8.5) - areOrbitsOverlapped * 2*pi * Parameters.nSatOrbActual / Parameters.nSatOrb;
-Parameters.dtheta = deg2rad(10);
+Parameters.dtheta =  Parameters.phase_factor*2*pi/( Parameters.nOrb *  Parameters.nSatOrb);
 sizeThetaVec = 100;
 dirSun = [-1 0 0]';
 deltaR = 2000;

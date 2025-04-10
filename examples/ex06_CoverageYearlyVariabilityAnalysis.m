@@ -13,22 +13,22 @@ dirSun0 = [-1 0 0]';
 %dirSun1 = [0 -cosd(Constants.ECL) sind(Constants.ECL)]';
 nTime = 20; % substitute 40
 timeVec = linspace(0, 52*7*86400, nTime);
-ConstellationParameters.nOrb = 8;
-ConstellationParameters.nSatOrb = 50;
+ConstellationParameters.nOrb = 5;
+ConstellationParameters.nSatOrb = 4;
 ConstellationParameters.h = 460;
 ConstellationParameters.in = deg2rad(70);
 ConstellationParameters.raan = 0;
 ConstellationParameters.dtheta = deg2rad(5);
-CoverageOptions.coverageCount = 3; % Triple coverage
+CoverageOptions.coverageCount = 1; % Triple coverage
 R = Constants.R_E + 100;
 deltaR = 2000;
 SampleOptions.R_1 = Constants.R_E + 400;
 SampleOptions.R_2 = Constants.R_E + 1800;
-SampleOptions.N = 1e3; % substitute 5*1e4
+SampleOptions.N = 1e4; % substitute 5*1e4
 inVec = deg2rad(linspace(65,85,9)); % vector of inclinations
 nIn = size(inVec,2);
 yearlyVariabilityAnalysis = 1;
-parametricAnalysis = 1;
+parametricAnalysis = 0;
 
 %% Sun propagation
 

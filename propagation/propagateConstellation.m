@@ -1,12 +1,12 @@
 % propagateConstellation propagates a given Walker constellation according
 % to Keplerian dynamics.
 %
-%   propagateConstellation(timeVec, Constellation, Constants)
+%   propagateConstellation(timeVec, Constellation, MU_E)
 %
 %   Inputs:
 %   - timeVec       : row vector containing the propagation timesteps [s].
 %   - Constellation : constellation structure (see InitialiseConstellation.m)
-%   - Constants     : astronomical constants (see InitialiseAstronomicalConstants.m)
+%   - MU_E          : gravitational parameter central body (see InitialiseAstronomicalConstants.m)
 %
 %   Outputs:
 %   - Constellation : updated constellation structure.

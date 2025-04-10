@@ -10,13 +10,14 @@
 %   .H_SOLAR        : Solar constant [W/m^2]
 %   .J2             : Earth spherical harmonic degree 2 [-]
 %   .LAMBDA_VISIBLE : Average wavelength visible light [m]
+%   .M_S            : Apparent magnitude of the Sun [-]
 %   .MU_E           : Earth gravitational parameter [km^3/s^2]
 %   .NI_VISIBLE     : Average frequency visible light [Hz]
 %   .OM_E           : Earth spin rate [rad/s]
 %   .OM_S           : Earth revolution rate around the Sun [rad/s]
 %   .R_E            : Average Earth radius [km]
 %   .R_E_NORAD      : NORAD Earth radius [km]
-%   .R_S            : Average Sun-Earth distance [km]
+%   .R_S            : Average Sun-Earth distance / 1 Astronomical Unit [km]
 %   .RHO_NORAD      : NORAD atmospheric density [kg/(m^2*R_E_NORAD)]
 %   .RHO_0          : ISA air density at standard conditions [kg/m^3]
 
@@ -59,5 +60,7 @@ function Constants = initialiseAstronomicalConstants()
     % International Standard Atmosphere dry air density at standard 
     % conditions [kg/m^3]
     Constants.RHO_0 = 1.225;
+
+    Constants.M_S = -26.73;
 
 end

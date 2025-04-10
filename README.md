@@ -6,6 +6,8 @@ Currently, the library contains the necessary code to replicate the results in t
 
 All the scripts required to replicate the results of the paper can be found in the <kbd>examples</kbd> folder.
 
+The example folder also contains the scripts necessary to replicate the 2025 conference paper "Performance assessment of space-based optical networks for debris observation and tracking in LEO", available [here](https://www.researchgate.net/publication/390627376_Performance_assessment_of_space-based_optical_networks_for_debris_observation_and_tracking_in_LEO).
+
 # Installation
 1. Download the [last release](https://github.com/Space-Group-Cranfield-University/spacefield/releases) as a ZIP file to a local folder.
 2. Extract the ZIP file content.
