@@ -20,7 +20,7 @@ The example folder also contains the scripts necessary to replicate the 2025 con
 ```
 @misc{danniballe_felicetti_analysis_tools_2025,
 	title = {{S}pacefield: a {C}ranfield {U}niversity {MATLAB} library},
-  author = {D'Anniballe, Antonio and Felicetti, Leonard},
+    author = {D'Anniballe, Antonio and Felicetti, Leonard},
 	url = {https://github.com/Space-Group-Cranfield-University/spacefield},
 	urldate = {2025-12-19},
 	publisher = {ASTRA-Lab (Cranfield University)},
