@@ -13,3 +13,17 @@ The example folder also contains the scripts necessary to replicate the 2025 con
 2. Extract the ZIP file content.
 3. Open MATLAB and select the local folder as the main path of the workspace.
 4. Add the path to MATLAB, for instance using <kbd>addpath(genpath("spacefield-main"))</kbd> at the beginning of your script.
+
+# Citing the library
+
+## Bibtex
+```
+@misc{danniballe_felicetti_analysis_tools_2025,
+	title = {{S}pacefield: a {C}ranfield {U}niversity {MATLAB} library},
+  author = {D'Anniballe, Antonio and Felicetti, Leonard},
+	url = {https://github.com/Space-Group-Cranfield-University/spacefield},
+	urldate = {2025-12-19},
+	publisher = {ASTRA-Lab (Cranfield University)},
+	year = {2025},
+}
+```
