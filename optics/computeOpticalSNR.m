@@ -1,4 +1,4 @@
-function SNR = getOpticalSNR(tau, deltaR, A_t, v_t, alpha, CAMERA, TRG_DATA, CONST)
+function SNR = computeOpticalSNR(tau, deltaR, A_t, v_t, alpha, CAMERA, TRG_DATA, CONST)
 
     % Function to get optical signal-to-noise ratio for a target tracing a
     % streak over an observing detector.
@@ -52,14 +52,17 @@ function SNR = getOpticalSNR(tau, deltaR, A_t, v_t, alpha, CAMERA, TRG_DATA, CON
     % We check whether the streak is longer than what the detector
     % allows.
     if L_st > CAMERA.pixel_resolution * sqrt(2)
+        exc = 100 * ( L_st - CAMERA.pixel_resolution * sqrt(2) ) / CAMERA.pixel_resolution * sqrt(2);
         L_st = CAMERA.pixel_resolution * sqrt(2);
-        disp("WARNING: long streak")
+        disp("WARNING: long streak, exceeds: "+string(exc)+"%")
     end
     n_p = ceil( L_st * W_st );
     N       = computeOpticalNoise(n_p, S, tau, CAMERA);
     SNR     = S / N;
     saturation = chi * C * n_p;
     if SNR > ( saturation / N - 1 )
-        SNR = saturation / N - 1;
+        %SNR = saturation / N - 1;
+        %SNR = 1/ ( saturation / S - 1 );
+        SNR = sqrt(saturation);
     end
 end
