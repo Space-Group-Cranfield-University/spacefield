@@ -1,0 +1,19 @@
+function bool = isTargetVisibleToConstellation_FOV(rTrg, rObsMat, dirSun, D_t, V_lim, R_H)
+    if nargin < 8
+        R_H = 6471;
+    end
+    if nargin < 7
+        V_lim = 16;
+    end
+    if nargin < 6
+        halfFOV = 0.06894; % FOV is 7.9 deg
+    end
+    bool = 0;
+    for k = 1:size(rObsMat, 1)
+        rObs = rObsMat(k, :)';
+        if isTargetVisibleToObserver_FOV(rTrg, rObs, dirSun, dirPointing, D_t, halfFOV, V_lim, R_H)
+            bool = 1;
+            return
+        end
+    end
+end

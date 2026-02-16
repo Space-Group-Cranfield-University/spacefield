@@ -21,7 +21,7 @@
 %   .RHO_NORAD      : NORAD atmospheric density [kg/(m^2*R_E_NORAD)]
 %   .RHO_0          : ISA air density at standard conditions [kg/m^3]
 
-function Constants = initialiseAstronomicalConstants()
+function Constants = initializeAstronomicalConstants()
 
     % Units are km, kg, s, rad. Bstar is 1/Re and has std value 0.0002
     Constants.C = 299792458; % speed of light [m/s]

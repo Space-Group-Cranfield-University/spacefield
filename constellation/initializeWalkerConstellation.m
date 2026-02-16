@@ -9,7 +9,7 @@
 %     .h            : constellation altitude.
 %     .in           : constellation inclination.
 %     .raan         : right ascension of first constellation orbit.
-%     .dtheta       : phase angle between successive constellation orbits.
+%     .F            : phase angle between successive constellation orbits.
 %   - Constants     : structure containing astronomical constants.
 %
 %   Outputs:
@@ -17,15 +17,27 @@
 %                   information. The initial state of satellite k of the
 %                   constellation can be found in Constellation(k).x0.
 
-function Constellation = initialiseConstellation(Parameters, Constants)
-    
+function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Constants)
+    if nargin < 1
+        Constants = initializeAstronomicalConstants();
+        Parameters.h = 400;
+        Parameters.nOrb = 5;
+        Parameters.nSatOrb = 4;
+        Parameters.in = deg2rad(75);
+        Parameters.F = 1;
+    end
+
+    if ~isfield(Parameters, 'raan')
+        Parameters.raan = 0;
+    end
+
     % Extract parameters
     nOrb = Parameters.nOrb;
     nSatOrb = Parameters.nSatOrb;
     h = Parameters.h;
     in = Parameters.in;
     firstRaan = Parameters.raan;
-    dtheta = Parameters.dtheta;
+    F = Parameters.F;
     
     % Initialise structure
     N_t = nSatOrb*nOrb;
@@ -43,11 +55,12 @@ function Constellation = initialiseConstellation(Parameters, Constants)
             Constellation(k+N).in = in;
             Constellation(k+N).raan = raan;
             Constellation(k+N).aop = 0;
-            Constellation(k+N).v = (k - 1) * 2*pi/nSatOrb + (j-1) * dtheta;
+            Constellation(k+N).v = (k - 1) * 2*pi/nSatOrb + (j-1) * F * 2 * pi / N_t;
             Constellation(k+N).kep  = [Constellation(k+N).a Constellation(k+N).e ...
                                     Constellation(k+N).in Constellation(k+N).raan ...
                                     Constellation(k+N).aop Constellation(k+N).v]';
             Constellation(k+N).x0 = convertKepToCart(Constellation(k+N).kep, Constants.MU_E);
         end
     end
+    rMat = convertConstellationToR_MAT(Constellation);
 end

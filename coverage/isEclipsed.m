@@ -13,6 +13,9 @@
 
 
 function flag = isEclipsed(rTrg, dirSun, R)
+    if nargin < 3
+        R = 6471;
+    end
 
     % positive if the target is behind the plane of the terminator
     eclipse_behind_earth = - rTrg' * dirSun;

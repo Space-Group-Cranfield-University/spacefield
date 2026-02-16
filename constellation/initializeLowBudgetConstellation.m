@@ -18,7 +18,7 @@
 %                   information. The initial state of satellite k of the
 %                   constellation can be found in Constellation(k).x0.
 
-function Constellation = initialiseLowBudgetConstellation(Parameters, Constants)
+function Constellation = initializeLowBudgetConstellation(Parameters, Constants)
     
     % Extract parameters
     nOrb = Parameters.nOrb;

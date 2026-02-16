@@ -13,11 +13,14 @@
 
 
 function flag = isAboveTheHorizon(rObs, rTrg, R)
+    if nargin < 3
+        R = 6471;
+    end
 
     dr = rObs - rTrg;
     dr_norm = norm(dr);
     r_obs_surf = sqrt(rObs' * rObs - R^2);
     relative_visibility = dr_norm * r_obs_surf - dr' * rObs;
-    flag = relative_visibility > 0;
+    flag = (relative_visibility > 0);
 
 end
