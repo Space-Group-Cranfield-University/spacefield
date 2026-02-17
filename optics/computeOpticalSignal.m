@@ -7,7 +7,7 @@ function S = computeOpticalSignal(P_t, tau, Q, CONST)
     %   S = computeOpticalSignal(P_t, tau)
     
     if nargin < 4
-        CONST = initialiseAstronomicalConstants;
+        CONST = initializeAstronomicalConstants;
     end
     if nargin < 3
         Q = getStandardCamera().Q;

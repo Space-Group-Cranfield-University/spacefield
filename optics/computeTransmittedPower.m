@@ -16,7 +16,7 @@ function P_t = computeTransmittedPower(A_t, deltaR, alpha, D, H, TRG_DATA)
     end
 
     if nargin < 5
-        H = initialiseAstronomicalConstants().H_SOLAR;
+        H = initializeAstronomicalConstants().H_SOLAR;
     end
 
     if nargin < 4

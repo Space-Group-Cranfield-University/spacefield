@@ -15,7 +15,7 @@ function CAMERA = getStandardCamera(CONST)
     % NOTICE: FOV does NOT depend on aperture!!!
 
     if nargin < 1
-        lambda = initialiseAstronomicalConstants().LAMBDA_VISIBLE;
+        lambda = initializeAstronomicalConstants().LAMBDA_VISIBLE;
     else
         lambda = CONST.LAMBDA_VISIBLE;
     end
@@ -31,7 +31,7 @@ function CAMERA = getStandardCamera(CONST)
     CAMERA.F_min = 2.8; % min focal ratio
     CAMERA.F_max = 32; % max focal ratio
     CAMERA.f = 0.4; % [m], focal length
-    CAMERA.tau = 0.01;
+    CAMERA.tau = 0.1;
     CAMERA.tau_min = 1/120; % [s], min exposure time
     CAMERA.tau_max = 120; % [s], max exposure time
     CAMERA.SNR_threshold = 5; % minimum signal to noise ratio for detectabel images. It is NOT in dB!!!

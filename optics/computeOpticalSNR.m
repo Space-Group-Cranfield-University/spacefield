@@ -20,7 +20,7 @@ function SNR = computeOpticalSNR(tau, deltaR, A_t, v_t, alpha, CAMERA, TRG_DATA,
     % SNR = getOpticalSNR(tau, deltaR, A_t)
 
     if nargin < 8
-        CONST = initialiseAstronomicalConstants;
+        CONST = initializeAstronomicalConstants;
     end
 
     if nargin < 7
