@@ -45,6 +45,7 @@ function CAMERA = getStandardCamera(CONST)
     CAMERA.pixels = floor(CAMERA.b / CAMERA.pixel_size);
     CAMERA.FOV = 2*atan(CAMERA.b / (2*CAMERA.f)); % [rad], assuming square field of view. This is not usually the case, the y-axis will have a smaller angle. Notice this is 2*atan(b/(2f))
     CAMERA.pixel_resolution = CAMERA.b(1) / CAMERA.pixel_size;
+    CAMERA.FOV_eq = getSquareToConicalFOV(mean(CAMERA.FOV));
     
     % Compute angular accuracies (the higher the accuracy, the lower the
     % number). Given in [rad]

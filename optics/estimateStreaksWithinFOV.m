@@ -1,24 +1,24 @@
-function N = estimateStreaksWithinFOV(tau, D_1, D_2, FOV, v_t, deltaRmax)
+function N = estimateStreaksWithinFOV(CAMERA, tau, D_1, D_2, FOV, v_t, deltaRmax)
     % Estimates the number of streaks falling within the FOV over the
     % observation exposure time tau for objects of sizes between D_1 and 
     % D_2. Valid for sizes > 1 mm and < 10 m. Assumes average
     % target-observer relative velocity parallel to the FOV plane is 9.5
     % km/s if not supplied.
-    if nargin < 6
+    if nargin < 7
         deltaRmax = 42000000;
     end
-    if nargin < 5
+    if nargin < 6
         v_t = 9500;
     end
-    if nargin < 4
-        FOV = getStandardCamera().FOV(1);
+    if nargin < 5
+        FOV = CAMERA.FOV_eq;
     end
-    if nargin < 2
+    if nargin < 3
         D_1 = 1e-2;
         D_2 = 10;
     end
     
-    V_lim = estimateLimitingMagnitude(tau);
+    V_lim = estimateLimitingMagnitude(CAMERA, tau);
     K = ( 26.74 + V_lim + 2.5 * log10(computeMixedPhaseFunction(0)) ) / 5;
     D_sharp = 10^(-K + log10(deltaRmax));
     % disp('V_lim [m]: '+string(V_lim)+', D_sharp [m]: '+string(D_sharp))
