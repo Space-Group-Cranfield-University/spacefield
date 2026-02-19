@@ -12,7 +12,7 @@ function bool = isTargetVisibleToObserver_FOR(rTrg, rObs, dirSun, D_t, SensorPar
     if ~isAboveTheHorizon(rObs, rTrg, SensorParameters.alpha_e, R_H)
         return
     end
-    if ~isSunExcluded(rObs, rTrg, dirSun, SensorParameters.alpha_s, R_H)
+    if ~isSunExcluded(rObs, rTrg, dirSun, SensorParameters.alpha_s)
         return
     end
     if isScatteringWeak(rObs, rTrg, dirSun, D_t, SensorParameters.V_lim)

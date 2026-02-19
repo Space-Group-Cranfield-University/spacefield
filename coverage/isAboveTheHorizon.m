@@ -21,10 +21,10 @@ function flag = isAboveTheHorizon(rObs, rTrg, alpha_e, R)
         alpha_e = deg2rad(25);
     end
     rObsNorm = norm(rObs);
-    theta_e = arcsin( R / rObsNorm );
+    theta_e = asin( R / rObsNorm );
     dr = rObs - rTrg;
     dr_norm = norm(dr);
-    target_angle = arccos( - rObs' * dr / (rObsNorm * dr_norm) );
+    target_angle = acos( rObs' * dr / (rObsNorm * dr_norm) );
     relative_visibility = target_angle - theta_e - alpha_e;
     flag = (relative_visibility > 0);
 

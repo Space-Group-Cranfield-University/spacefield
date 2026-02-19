@@ -18,12 +18,12 @@ function flag = isEclipsed(rTrg, dirSun, R)
     end
 
     % positive if the target is behind the plane of the terminator
-    eclipse_behind_earth = - rTrg' * dirSun;
+    eclipse_behind_earth = rTrg' * dirSun;
 
     % positive if the target is within the cylinder tangent to the Earth 
     % at the terminator
     eclipse_within_earth = (rTrg' * dirSun)^2 - norm(rTrg)^2 + R^2;
 
-    flag = (eclipse_behind_earth > 0) && (eclipse_within_earth > 0);
+    flag = (eclipse_behind_earth < 0) && (eclipse_within_earth > 0);
 
 end

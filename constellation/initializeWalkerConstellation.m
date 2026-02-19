@@ -38,6 +38,7 @@ function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Const
     in = Parameters.in;
     firstRaan = Parameters.raan;
     F = Parameters.F;
+    a = Constants.R_E + h;
     
     % Initialise structure
     N_t = nSatOrb*nOrb;
@@ -51,6 +52,7 @@ function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Const
         N = (j-1)*nSatOrb;
         for k = 1:nSatOrb
             Constellation(k+N).a = Constants.R_E + h;
+            Constellation(k+N).T = computeOrbitalPeriod(a);
             Constellation(k+N).e = 1e-6;
             Constellation(k+N).in = in;
             Constellation(k+N).raan = raan;
@@ -62,5 +64,5 @@ function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Const
             Constellation(k+N).x0 = convertKepToCart(Constellation(k+N).kep, Constants.MU_E);
         end
     end
-    rMat = convertConstellationToR_MAT(Constellation);
+    rMat = getConstellationPositionMatrix(Constellation);
 end

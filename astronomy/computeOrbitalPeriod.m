@@ -11,7 +11,9 @@
 %   - orbitalPeriod : orbital period [s].
 
 function orbitalPeriod = computeOrbitalPeriod(a, mu)
-
+    if nargin < 2
+        mu = initializeAstronomicalConstants().MU_E;
+    end
     orbitalPeriod = 2*pi / sqrt(mu) * a^1.5;
 
 end
