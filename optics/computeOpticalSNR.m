@@ -54,7 +54,7 @@ function SNR = computeOpticalSNR(tau, deltaR, A_t, v_t, alpha, CAMERA, TRG_DATA,
     if L_st > CAMERA.pixel_resolution * sqrt(2)
         exc = 100 * ( L_st - CAMERA.pixel_resolution * sqrt(2) ) / CAMERA.pixel_resolution * sqrt(2);
         L_st = CAMERA.pixel_resolution * sqrt(2);
-        disp("WARNING: long streak, exceeds: "+string(exc)+"%")
+        warning("WARNING: long streak, exceeds the field of view by: "+string(exc)+"%")
     end
     n_p = ceil( L_st * W_st );
     N       = computeOpticalNoise(n_p, S, tau, CAMERA);

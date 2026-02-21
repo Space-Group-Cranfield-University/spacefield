@@ -19,12 +19,14 @@
 
 function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Constants)
     if nargin < 1
-        Constants = initializeAstronomicalConstants();
         Parameters.h = 400;
         Parameters.nOrb = 5;
         Parameters.nSatOrb = 4;
         Parameters.in = deg2rad(75);
         Parameters.F = 1;
+    end
+    if nargin < 2
+        Constants = initializeAstronomicalConstants();
     end
 
     if ~isfield(Parameters, 'raan')

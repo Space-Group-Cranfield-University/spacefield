@@ -1,4 +1,4 @@
-function coverage = estimateGeometricCoverage(nTrg, rObsMat, dirSun, nFold, SensorParameters, CONST, fileNames, dataFolder)
+function coverage = estimateGeometricCoverage(rObsMat, dirSun, nTrg, nFold, SensorParameters, CONST, fileNames, dataFolder)
     if nargin < 8
         dataFolder = 'data';
     end
@@ -13,6 +13,9 @@ function coverage = estimateGeometricCoverage(nTrg, rObsMat, dirSun, nFold, Sens
     end
     if nargin < 4
         nFold = 1;
+    end
+    if nargin < 3
+        nTrg = 1e4;
     end
     integrand   = @(rTrgAugmented) ...
                 isTargetVisibleToConstellation_FOR(rTrgAugmented(1:3), ...
