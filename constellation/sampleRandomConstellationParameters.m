@@ -1,6 +1,15 @@
 function Parameters = ...
             sampleRandomConstellationParameters...
             (nSatBounds, inBounds, hBounds, excludeSingleOrbits)
+    if nargin < 4
+        excludeSingleOrbits = 1;
+    end
+    if nargin < 3
+        hBounds = 460;
+    end
+    if nargin < 2
+        inBounds = [pi/2 - pi/6, pi/2];
+    end
     isPrime = 1;
     while isPrime
         nSat = sampleFromBounds(nSatBounds, 1);

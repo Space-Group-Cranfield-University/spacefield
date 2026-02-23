@@ -1,4 +1,7 @@
 function [meanCoverage, varCoverage, dailyCoverageVec] = getDailyCoverage(timeVecDay, OBS, dirSun, nFold)
+    if nargin < 4
+        nFold = 1;
+    end
     OBS = propagateConstellation(timeVecDay, OBS);
     dailyCoverageVec = zeros(1, size(timeVecDay, 2));
     for k = 1:size(timeVecDay, 2)

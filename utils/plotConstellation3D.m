@@ -1,24 +1,24 @@
-function f = plotConstellation3D(OBS, rObsMat, orbitFlag, satFlag, az, el, n_t)
+function f = plotConstellation3D(OBS, az, el, rObsMat, orbitFlag, satFlag, n_t)
     f = figure();
     if nargin < 7
         n_t = 50;
     end
-    if nargin < 6
+    if nargin < 3
         el = 30;
     end
-    if nargin < 5
+    if nargin < 2
         az = 135;
     end
-    if nargin < 4
+    if nargin < 6
         satFlag = 1;
     end
-    if nargin < 3
+    if nargin < 5
         orbitFlag = 1;
     end
     if nargin < 1
         OBS = initializeWalkerConstellation;
     end
-    if nargin < 2
+    if nargin < 4
         rObsMat = getConstellationPositionMatrix(OBS);
     end
     timeVec = linspace(0, OBS(1).T, n_t);

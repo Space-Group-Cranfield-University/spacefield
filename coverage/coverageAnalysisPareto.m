@@ -27,7 +27,7 @@ function RESULTS = coverageAnalysisPareto(nConstellations, nFold, nSatBounds, in
     coverage = zeros(1, nConstellations);
     stdCoverage = zeros(1, nConstellations);
     tic
-    for k = 1:nConstellations
+    parfor k = 1:nConstellations
         Parameters = sampleRandomConstellationParameters(nSatBounds, inBounds, hBounds, excludeSingleOrbits);
         OBS = initializeWalkerConstellation(Parameters);
         nSat(k) = Parameters.nOrb * Parameters.nSatOrb;

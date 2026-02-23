@@ -3,7 +3,7 @@ function [] = plotGroundTracks(raDecMat, color, lineWidth, Z)
         Z = 100;
     end
     if nargin < 3
-        lineWidth = 1.5;
+        lineWidth = 1;
     end
     if nargin < 2
         color = "red";

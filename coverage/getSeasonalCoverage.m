@@ -1,4 +1,4 @@
-function [meanCoverage, varCoverage, seasonalCoverageVec] = getSeasonalCoverage(OBS, dirSun0, n_t_season, n_t_day_season, nFold)
+function [meanCoverage, varCoverage, seasonalCoverageVec, timeVecSeason] = getSeasonalCoverage(OBS, dirSun0, n_t_season, n_t_day_season, nFold)
     yearInSeconds = 365*86400;
     timeVecSeason = linspace(0, yearInSeconds, n_t_season + 1);
     timeVecSeason = timeVecSeason(1:(end-1));
