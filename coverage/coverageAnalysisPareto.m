@@ -24,8 +24,9 @@ function RESULTS = coverageAnalysisPareto(nConstellations, nFold, nSatBounds, in
     nSat = zeros(1, nConstellations);
     in = zeros(1, nConstellations);
     h = zeros(1, nConstellations);
-    coverage = zeros(1, nConstellations);
-    stdCoverage = zeros(1, nConstellations);
+    sizeNFold = max(size(nFold));
+    coverage = zeros(sizeNFold, nConstellations);
+    stdCoverage = zeros(sizeNFold, nConstellations);
     tic
     parfor k = 1:nConstellations
         Parameters = sampleRandomConstellationParameters(nSatBounds, inBounds, hBounds, excludeSingleOrbits);
@@ -33,14 +34,20 @@ function RESULTS = coverageAnalysisPareto(nConstellations, nFold, nSatBounds, in
         nSat(k) = Parameters.nOrb * Parameters.nSatOrb;
         in(k) = rad2deg(Parameters.in);
         h(k) = Parameters.h;
-        [coverage(k), varCoverage] = getSeasonalCoverage(OBS, dirSun0, n_t_season, n_t_day, nFold);
-        stdCoverage(k) = sqrt(varCoverage);
+        for j = 1:sizeNFold
+            [coverage(j, k), varCoverage] = getSeasonalCoverage(OBS, dirSun0, n_t_season, n_t_day, nFold(j));
+            stdCoverage(j, k) = sqrt(varCoverage);
+        end
         currentTime = toc;
         if ~mod(k, 20)
             disp(string(k)+" / "+string(nConstellations)+", time elapsed [s]: "+string(currentTime))
         end
     end
-    [nSatPareto, coveragePareto] = estimateParetoFrontier(nSat, coverage);
+    nSatPareto = [];
+    coveragePareto = [];
+    if sizeNFold == 1
+        [nSatPareto, coveragePareto] = estimateParetoFrontier(nSat, coverage);
+    end
     RESULTS.nSat = nSat;
     RESULTS.in = in;
     RESULTS.h = h;
@@ -48,4 +55,5 @@ function RESULTS = coverageAnalysisPareto(nConstellations, nFold, nSatBounds, in
     RESULTS.stdCoverage = stdCoverage;
     RESULTS.coveragePareto = coveragePareto;
     RESULTS.nSatPareto = nSatPareto;
+    RESULTS.nFold = nFold;
 end
