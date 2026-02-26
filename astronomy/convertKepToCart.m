@@ -11,6 +11,9 @@
 %           velocity).
 
 function cart = convertKepToCart(kep, mu)
+    if nargin < 2
+        mu = initialiseAstronomicalConstants().MU_E;
+    end
 
     a = kep(1); % semi-major axis [km]
     e = kep(2); % eccentricity [-]
