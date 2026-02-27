@@ -17,7 +17,7 @@
 %                   information. The initial state of satellite k of the
 %                   constellation can be found in Constellation(k).x0.
 
-function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Constants)
+function [Constellation, rMat] = initializeWalkerConstellation(Parameters, SensorParameters, Constants)
     if nargin < 1
         Parameters.h = 400;
         Parameters.nOrb = 5;
@@ -26,6 +26,9 @@ function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Const
         Parameters.F = 1;
     end
     if nargin < 2
+        SensorParameters = getReducedSensorParameters;
+    end
+    if nargin < 3
         Constants = initializeAstronomicalConstants();
     end
 
@@ -67,4 +70,5 @@ function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Const
         end
     end
     rMat = getConstellationPositionMatrix(Constellation);
+    Constellation = setConstellationSensors(Constellation, SensorParameters);
 end

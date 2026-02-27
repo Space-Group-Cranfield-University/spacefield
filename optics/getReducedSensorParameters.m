@@ -7,4 +7,5 @@ function SensorParameters = getReducedSensorParameters(FOV)
     SensorParameters.alpha_s = SensorParameters.alpha_e;
     SensorParameters.FOV = FOV;
     SensorParameters.halfFOV = SensorParameters.FOV / 2;
+    SensorParameters.sigma = convertArcsecToRad(8.3);
 end
