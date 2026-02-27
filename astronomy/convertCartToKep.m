@@ -20,7 +20,10 @@
 %           anomaly. Mean and eccentric anomaly to be added.
 %
 
-function kep = convertCart2Kep(y, mu)
+function kep = convertCartToKep(y, mu)
+    if nargin < 2
+        mu = initializeAstronomicalConstants().MU_E;
+    end
     % WARNING: Function does NOT handle singularity at i = 90 deg
     kep = zeros(6,1);
     r = y(1:3,1);
