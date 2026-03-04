@@ -1,7 +1,11 @@
 function [TRG, nWellTracked, nWellTrackedVec, isWellTrackedMat] = ...
-            computeNumberOfWellTrackedTargets(TRG, targetVisibilityMat, deltaT, orbitalFraction)
+            computeNumberOfWellTrackedTargets(TRG, targetVisibilityMat, ...
+            deltaT, maxOrbitalFraction, minTrackLength)
+    if nargin < 5
+        minTrackLength = 4 * deltaT;
+    end
     if nargin < 4
-        orbitalFraction = 1/2;
+        maxOrbitalFraction = 1/2;
     end
     TRG = extractTracksFromVisibilityMatrix(TRG, targetVisibilityMat);
     isWellTrackedMat = zeros(size(targetVisibilityMat));
@@ -10,15 +14,18 @@ function [TRG, nWellTracked, nWellTrackedVec, isWellTrackedMat] = ...
         for j = 1:size(targetVisibilityMat, 2)
             lastMeasurementTimestep = -1e9;
             for i = 1:size(TRG(k).track, 1)
-                if j >= TRG(k).track(i, 1) && j <= TRG(k).track(i, 2)
-                    isWellTrackedMat(k, j) = 1;
-                elseif j > TRG(k).track(i, 2)
-                    lastMeasurementTimestep = TRG(k).track(i, 2);
+                trackLength = ( TRG(k).track(i, 2) - TRG(k).track(i, 1) ) * deltaT;
+                if trackLength > minTrackLength
+                    if j >= TRG(k).track(i, 1) && j <= TRG(k).track(i, 2)
+                        isWellTrackedMat(k, j) = 1;
+                    elseif j > TRG(k).track(i, 2)
+                        lastMeasurementTimestep = TRG(k).track(i, 2);
+                    end
                 end
             end
             timeSinceLastMeasurement = ...
                 (j - lastMeasurementTimestep) * deltaT;
-            if timeSinceLastMeasurement < ( orbitalFraction * T )
+            if timeSinceLastMeasurement < ( maxOrbitalFraction * T )
                 isWellTrackedMat(k, j) = 1;
             end
         end
