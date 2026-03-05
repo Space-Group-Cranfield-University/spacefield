@@ -25,9 +25,3 @@ function [meanEstimationErrorUnderTracking, meanEstimationErrorUnderTrackingVec,
     meanEstimationErrorUnderTracking = mean(EE_list);
     medianEstimationErrorUnderTracking = median(EE_list);
 end
-
-function [meanEstimationErrorUnderTracking, ...
-    medianEstimationErrorUnderTracking] = ...
-    computeEstimationErrorScalar(estimationErrorMat)
-    
-end

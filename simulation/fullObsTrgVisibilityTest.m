@@ -1,5 +1,6 @@
-function ObsTrgCrossVisibilityMat = fullObsTrgVisibilityTest(timestep, OBS, TRG, dirSunMat, SensorParameters, R_H)
-    if nargin < 6
+function ObsTrgCrossVisibilityMat = fullObsTrgVisibilityTest...
+            (timestep, OBS, TRG, dirSunMat, R_H)
+    if nargin < 5
         R_H = 100 + initializeAstronomicalConstants().R_E;
     end
     dirSun = dirSunMat(timestep, :)';
@@ -10,7 +11,10 @@ function ObsTrgCrossVisibilityMat = fullObsTrgVisibilityTest(timestep, OBS, TRG,
         for k = 1:size(OBS, 2)
             rObs = OBS(k).xMat(timestep, 1:3)';
             dirPointing = getPointingDirectionInECI(OBS(k), timestep);
-            ObsTrgCrossVisibilityMat(k, j) = isTargetVisibleToObserver_FOV(rTrg, rObs, dirPointing, dirSun, D_t, SensorParameters, R_H);
+            ObsTrgCrossVisibilityMat(k, j) = ...
+                isTargetVisibleToObserver_FOV...
+                (rTrg, rObs, dirPointing, dirSun, D_t, ...
+                OBS(k).SensorParameters, R_H);
         end
     end
 end
