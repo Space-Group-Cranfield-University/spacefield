@@ -15,7 +15,7 @@ function [TRG, nWellTracked, nWellTrackedVec, isWellTrackedMat] = ...
             lastMeasurementTimestep = -1e9;
             for i = 1:size(TRG(k).track, 1)
                 trackLength = ( TRG(k).track(i, 2) - TRG(k).track(i, 1) ) * deltaT;
-                if trackLength > minTrackLength
+                if trackLength >= minTrackLength
                     if j >= TRG(k).track(i, 1) && j <= TRG(k).track(i, 2)
                         isWellTrackedMat(k, j) = 1;
                     elseif j > TRG(k).track(i, 2)

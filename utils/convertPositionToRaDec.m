@@ -5,8 +5,8 @@ function raDec = convertPositionToRaDec(r)
     rNorm = norm(r);
     dec = asin( z / rNorm );
     ra = atan2( y, x );
-    if ra < 0
-        ra = 2*pi - abs(ra);
-    end
-    raDec = [ra ; dec; rNorm];
+    %if ra < 0
+    %    ra = 2*pi - abs(ra);
+    %end
+    raDec = [rNorm; ra ; dec];
 end

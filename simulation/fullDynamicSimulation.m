@@ -26,12 +26,18 @@ function [RESULTS, TRG, OBS] = ...
     if ~isfield(OPTIONS, "minTrackLength")
         OPTIONS.minTrackLength = getStandardSimulationOptions().minTrackLength;
     end
+    if ~isfield(OPTIONS, "TASKING_OPTIONS")
+        OPTIONS.TASKING_OPTIONS = getStandardGreedyOptions;
+    end
     deltaT = timeVec(2) - timeVec(1);
     tic
     sensorActivationMat = zeros(size(OBS, 2), size(timeVec, 2));
     targetVisibilityMat = zeros(size(TRG, 2), size(timeVec, 2));
+    ObsTrgCrossVisibilityMat = zeros(size(OBS, 2), size(TRG, 2));
     for j = 2:size(timeVec, 2)
-        OBS = taskSensors(j, OBS, OPTIONS.taskingStrategy);
+        OBS = taskSensors...
+            (j, OBS, OPTIONS.taskingStrategy, TRG, ...
+            ObsTrgCrossVisibilityMat, dirSunMat(j, :)', OPTIONS.TASKING_OPTIONS);
         ObsTrgCrossVisibilityMat    = fullObsTrgVisibilityTest...
                                     (j, OBS, TRG, dirSunMat);
         sensorActivationMat(:, j)   = sum(ObsTrgCrossVisibilityMat, 2);
@@ -39,9 +45,9 @@ function [RESULTS, TRG, OBS] = ...
         if OPTIONS.filterFlag
             TRG = updateAllTargetStates...
                 (j, deltaT, TRG, OBS, ObsTrgCrossVisibilityMat);
-            if OPTIONS.verbose && ~mod(j, 100)
-                disp(string(j) + " / "+string(size(timeVec, 2)))
-            end
+        end
+        if OPTIONS.verbose && ~mod(j, 100)
+            disp(string(j) + " / "+string(size(timeVec, 2)))
         end
     end
     RESULTS.sensorActivationMat = sensorActivationMat;

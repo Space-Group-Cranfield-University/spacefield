@@ -71,4 +71,5 @@ function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Senso
     end
     rMat = getConstellationPositionMatrix(Constellation);
     Constellation = setConstellationSensors(Constellation, SensorParameters);
+    Constellation = setInitialPointingDirections(0, Constellation);
 end
