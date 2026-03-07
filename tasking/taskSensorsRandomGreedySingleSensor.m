@@ -17,29 +17,31 @@ function OBS = taskSensorsRandomGreedySingleSensor...
             %deltaAzElVec = rand([2, OPTIONS.nSamples]) .* deg2rad(90) - [0; deg2rad(45)];
             deltaAzElVec = (2*rand(2,OPTIONS.nSamples)-1) * OPTIONS.maxSlewAngle;
         end
-        for j = 1:OPTIONS.nSamples
-            % We first check static pointing to avoid slewing when 
-            % unnecessary.
-            if j > 1
-                deltaAzEl = deltaAzElVec(:,j);
-            else
-                deltaAzEl = [0;0];
-            end
-            newAzEl = prevAzEl + deltaAzEl;
-            newPointingDir = convertRaDecToPosition([1; newAzEl]);
-            OBS(k).pointingMat(timestep, :) = newPointingDir';
-            [~, nWeightedTargets, ~] = ...
-                countTaskingVisibilityOverTargetPopulation...
-                (timestep, OBS(k), TRG, prevObsTrgCrossVisibilityMat(k, :), ...
-                dirSun, OPTIONS);
-            % We select the pointing direction that maximizes the number of
-            % observed targets for the single sensor, weighted over target
-            % priority (targets observed at a previous time step have a
-            % higher priority).
-            if nWeightedTargets > bestWeightedTargets
-                bestWeightedTargets = nWeightedTargets;
-                bestPointingDir = newPointingDir;
-                bestAzEl = newAzEl;
+        if ~OPTIONS.lowPower || ~isEclipsed(OBS(k).xMat(timestep, 1:3)', dirSun)
+            for j = 1:OPTIONS.nSamples
+                % We first check static pointing to avoid slewing when 
+                % unnecessary.
+                if j > 1
+                    deltaAzEl = deltaAzElVec(:,j);
+                else
+                    deltaAzEl = [0;0];
+                end
+                newAzEl = prevAzEl + deltaAzEl;
+                newPointingDir = convertRaDecToPosition([1; newAzEl]);
+                OBS(k).pointingMat(timestep, :) = newPointingDir';
+                [~, nWeightedTargets, ~] = ...
+                    countTaskingVisibilityOverTargetPopulation...
+                    (timestep, OBS(k), TRG, prevObsTrgCrossVisibilityMat(k, :), ...
+                    dirSun, OPTIONS);
+                % We select the pointing direction that maximizes the number of
+                % observed targets for the single sensor, weighted over target
+                % priority (targets observed at a previous time step have a
+                % higher priority).
+                if nWeightedTargets > bestWeightedTargets
+                    bestWeightedTargets = nWeightedTargets;
+                    bestPointingDir = newPointingDir;
+                    bestAzEl = newAzEl;
+                end
             end
         end
         OBS(k).pointingMat(timestep, :) = bestPointingDir';

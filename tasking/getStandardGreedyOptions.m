@@ -1,13 +1,13 @@
 function OPTIONS = getStandardGreedyOptions()
     OPTIONS.constrained = 1;
     if OPTIONS.constrained
-        OPTIONS.maxSlewAngle = deg2rad(1);
+        OPTIONS.maxSlewAngle = deg2rad(5);
     else
         OPTIONS.maxSlewAngle = deg2rad(30);
     end
-    OPTIONS.minEl = deg2rad(0);
-    OPTIONS.maxEl = deg2rad(10);
-    OPTIONS.nSamples = 100;
+    OPTIONS.minEl = -deg2rad(70);
+    OPTIONS.maxEl = deg2rad(5);
+    OPTIONS.nSamples = 20;
 
     % Observers may retain inaccurate knowledge of target states if they
     % have not communicated with ground for long.
@@ -22,5 +22,8 @@ function OPTIONS = getStandardGreedyOptions()
     % Greedy may optimize across the complete network or each sensor on its
     % own. The second strategy is suboptimal but compatible with on-board
     % search of best pointing direction.
-    OPTIONS.optimizeForCompleteNetwork = 1;
+    OPTIONS.optimizeForCompleteNetwork = 0;
+
+    % If we want to idle during Eclipse:
+    OPTIONS.lowPower = 0;
 end
