@@ -31,7 +31,7 @@ function [raMat, decMat, visibilityCountMat] = getVisibilityGrid(rObsMat, dirSun
         for k = 1:N
             dec = decVec(k);
             rTrg = convertRaDecToPosition(R_e+h_trg, ra, dec);
-            visibilityCountMat(k, j) = countVisibilityFOR(rTrg, rObsMat, dirSun, D_trg, SensorParameters, R_H);
+            visibilityCountMat(k, j) = countVisibilityFOR(rTrg, rObsMat, dirSun, D_trg, SensorParameters);
         end
     end
 end

@@ -5,11 +5,7 @@ function SensorParameters = getReducedSensorParameters(FOV, sensorType, radarTyp
     if nargin < 1
         FOV = deg2rad(8.1);
     end
-    if sensorType == "radar" && nargin == 3
-        SensorParameters = getStandardRadar(radarType);
-    elseif sensorType == "radar"
-        warning("Radar requires additional argument")
-    else
+    if sensorType == "optical"
         SensorParameters.V_lim = 14.6;
         SensorParameters.alpha_e = deg2rad(15);
         SensorParameters.alpha_s = SensorParameters.alpha_e;
@@ -18,5 +14,7 @@ function SensorParameters = getReducedSensorParameters(FOV, sensorType, radarTyp
         SensorParameters.sigma = convertArcsecToRad(8.3);
         SensorParameters.sensorType = "optical";
         SensorParameters.R_H = 6471;
+    else
+        SensorParameters = getStandardRadar(radarType);
     end
 end

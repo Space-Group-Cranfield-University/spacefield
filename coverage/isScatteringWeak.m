@@ -14,16 +14,24 @@
 %   Outputs:
 %   - flag      : true if the observer is blinded, false otherwise.
 
-function flag = isScatteringWeak(rObs, rTrg, dirSun, A_t, V_lim, isCrossSection)
+function flag = isScatteringWeak(rObs, rTrg, dirSun, A_t, SensorParameters, isCrossSection)
     if nargin < 6
         isCrossSection = 0;
     end
     if ~isCrossSection
+        D_t = A_t;
         A_t = A_t^2;
+    else
+        D_t = sqrt(A_t);
     end
     dr = rObs - rTrg;
     deltaR = norm( dr );
     alpha = acos( dr' * dirSun / deltaR );
-    V = computeApparentMagnitude( deltaR*1e3, A_t, alpha );
-    flag = (V > V_lim);
+    if SensorParameters.sensorType == "optical"
+        V = computeApparentMagnitude( deltaR*1e3, A_t, alpha );
+        flag = (V > SensorParameters.V_lim);
+    elseif SensorParameters.sensorType == "radar"
+        SNR = computeRadarSNR(deltaR * 1e3, D_t, SensorParameters);
+        flag = (SNR < SensorParameters.minSNR);
+    end
 end

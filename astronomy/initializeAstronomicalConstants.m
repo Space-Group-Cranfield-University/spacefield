@@ -9,6 +9,7 @@
 %   .H_PLANCK       : Planck's constant [J*s]
 %   .H_SOLAR        : Solar constant [W/m^2]
 %   .J2             : Earth spherical harmonic degree 2 [-]
+%   .K_B            : Boltzmann's constant [J/K]
 %   .LAMBDA_VISIBLE : Average wavelength visible light [m]
 %   .M_S            : Apparent magnitude of the Sun [-]
 %   .MU_E           : Earth gravitational parameter [km^3/s^2]
@@ -62,5 +63,6 @@ function Constants = initializeAstronomicalConstants()
     Constants.RHO_0 = 1.225;
 
     Constants.M_S = -26.73;
+    Constants.K_B = 1.3806503 * 1e-23;
 
 end
