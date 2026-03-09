@@ -14,8 +14,9 @@ function RadarParameters = getStandardRadar(radarType)
     RadarParameters.radarType = radarType;
     RadarParameters.G = 60; % Gain [dB]
     RadarParameters.theta_b = deg2rad(0.2); % beamwidth [rad], 12 arcmin
-    RadarParameters.maxEl = deg2rad(90); % Minimum elevation [rad]
-    RadarParameters.minEl = deg2rad(20); % Minimum elevation [rad]
+    % Notice: local reference systems has z axis pointing down
+    RadarParameters.maxEl = -deg2rad(20); % Minimum elevation [rad]
+    RadarParameters.minEl = -deg2rad(90); % Minimum elevation [rad]
     RadarParameters.maxElRate = deg2rad(2); % Elevation rate [rad/s]
     RadarParameters.G_T = 40; % Gain over temperature G/T [dB]
     RadarParameters.L_s = 1; % System losses [dB]
@@ -54,5 +55,8 @@ function RadarParameters = getStandardRadar(radarType)
     RadarParameters.FOV = deg2rad(2);
     RadarParameters.halfFOV = RadarParameters.FOV / 2;
     RadarParameters.R_H = 6371;
-    RadarParameters.alpha_e = RadarParameters.minEl;
+    RadarParameters.alpha_e = -RadarParameters.maxEl;
+    RadarParameters.maxSlewAngle = deg2rad(60);
+    RadarParameters.isDoppler = 0;
+    RadarParameters.uncertaintySNRdependent = 1;
 end

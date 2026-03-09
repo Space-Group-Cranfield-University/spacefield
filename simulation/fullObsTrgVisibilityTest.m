@@ -1,8 +1,5 @@
 function ObsTrgCrossVisibilityMat = fullObsTrgVisibilityTest...
-            (timestep, OBS, TRG, dirSunMat, R_H)
-    if nargin < 5
-        R_H = 100 + initializeAstronomicalConstants().R_E;
-    end
+            (timestep, OBS, TRG, dirSunMat)
     dirSun = dirSunMat(timestep, :)';
     ObsTrgCrossVisibilityMat = zeros(size(OBS, 2), size(TRG, 2));
     for j = 1:size(TRG, 2)
@@ -14,7 +11,7 @@ function ObsTrgCrossVisibilityMat = fullObsTrgVisibilityTest...
             ObsTrgCrossVisibilityMat(k, j) = ...
                 isTargetVisibleToObserver_FOV...
                 (rTrg, rObs, dirPointing, dirSun, D_t, ...
-                OBS(k).SensorParameters, R_H);
+                OBS(k).SensorParameters);
         end
     end
 end

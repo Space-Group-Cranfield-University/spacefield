@@ -1,4 +1,4 @@
-function [sigma_r, sigma_v, sigma_theta] = getRadarAccuracy(deltaT, SNR, RadarParameters, CONST)
+function [sigma_r, sigma_v, sigma_theta] = getRadarAccuracy(SNR, RadarParameters, CONST)
     % References:
     %   - https://www.mathworks.com/help/radar/ug/measurement-accuracy-bias-and-resolution.html
     if nargin < 4
@@ -19,9 +19,9 @@ function [sigma_r, sigma_v, sigma_theta] = getRadarAccuracy(deltaT, SNR, RadarPa
     if nargin < 1
         n_p = 1;
     elseif RadarParameters.radarType == "tracking"
-        n_p = f_p * deltaT;
+        n_p = f_p * RadarParameters.deltaT;
     elseif RadarParameters.radarType == "fence"
-        n_p = deltaT / RadarParameters.t_s;
+        n_p = RadarParameters.deltaT / RadarParameters.t_s;
     end
     sigma_theta = theta_b / (1.5 * sqrt(n_p * SNR)) + bias(3);
     delta_r = CONST.C / (2 * B);

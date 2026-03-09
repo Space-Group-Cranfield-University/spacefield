@@ -1,7 +1,4 @@
-function bool = isTargetVisibleToConstellation_FOR(rTrg, rObsMat, dirSun, D_t, nFold, SensorParameters, R_H)
-    if nargin < 7
-        R_H = 6471;
-    end
+function bool = isTargetVisibleToConstellation_FOR(rTrg, rObsMat, dirSun, D_t, nFold, SensorParameters)
     if nargin < 6
         SensorParameters = getReducedSensorParameters;
     end
@@ -12,7 +9,7 @@ function bool = isTargetVisibleToConstellation_FOR(rTrg, rObsMat, dirSun, D_t, n
     nVisible = 0;
     for k = 1:size(rObsMat, 1)
         rObs = rObsMat(k, :)';
-        if isTargetVisibleToObserver_FOR(rTrg, rObs, dirSun, D_t, SensorParameters, R_H)
+        if isTargetVisibleToObserver_FOR(rTrg, rObs, dirSun, D_t, SensorParameters)
             nVisible = nVisible + 1;
         end
         if nVisible == nFold

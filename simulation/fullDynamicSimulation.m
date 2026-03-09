@@ -5,12 +5,15 @@ function [RESULTS, TRG, OBS] = ...
     if nargin < 5
         OPTIONS = getStandardSimulationOptions;
     end
+    if nargin < 4
+        dirSunMat = [];
+    end
     if ~isfield(OPTIONS, "verbose")
         OPTIONS.verbose = getStandardSimulationOptions().verbose;
     end
     if ~isfield(OPTIONS, "taskingStrategy")
         OPTIONS.taskingStrategy = ...
-            getStandardSimulationOptions().taskingSTrategy;
+            getStandardSimulationOptions().taskingStrategy;
     end
     if ~isfield(OPTIONS, "filterFlag")
         OPTIONS.filterFlag = getStandardSimulationOptions().filterFlag;
@@ -33,11 +36,13 @@ function [RESULTS, TRG, OBS] = ...
     if ~isfield(OPTIONS, "TASKING_OPTIONS")
         OPTIONS.TASKING_OPTIONS = getStandardGreedyOptions;
     end
+
     deltaT = timeVec(2) - timeVec(1);
     tic
     sensorActivationMat = zeros(size(OBS, 2), size(timeVec, 2));
     targetVisibilityMat = zeros(size(TRG, 2), size(timeVec, 2));
     ObsTrgCrossVisibilityMat = zeros(size(OBS, 2), size(TRG, 2));
+
     for j = 2:size(timeVec, 2)
         % Task sensor (this is the most computationally expensive step if
         % using a complex tasking strategy)
@@ -45,20 +50,24 @@ function [RESULTS, TRG, OBS] = ...
             (j, OBS, OPTIONS.taskingStrategy, TRG, ...
             ObsTrgCrossVisibilityMat, dirSunMat(j, :)', ...
             OPTIONS.TASKING_OPTIONS);
+
         % Compute which targets are visible to which observers.
         ObsTrgCrossVisibilityMat    = fullObsTrgVisibilityTest...
                                     (j, OBS, TRG, dirSunMat);
         sensorActivationMat(:, j)   = sum(ObsTrgCrossVisibilityMat, 2);
         targetVisibilityMat(:, j)   = sum(ObsTrgCrossVisibilityMat', 2);
+
+        % Apply Kalman filtering using the available measurements.
+        % Computationally expensive, therfore it is possible to disable
+        % if one does not want the estimated states and covariances but
+        % only metrics such as number of tracks, track length, and so
+        % on.
         if OPTIONS.filterFlag
-            % Apply Kalman filtering using the available measurements.
-            % Computationally expensive, therfore it is possible to disable
-            % if one does not want the estimated states and covariances but
-            % only metrics such as number of tracks, track length, and so
-            % on.
             TRG = updateAllTargetStates...
                 (j, deltaT, TRG, OBS, ObsTrgCrossVisibilityMat);
         end
+
+        % Display step
         if OPTIONS.verbose && ~mod(j, 100)
             disp(string(j) + " / "+string(size(timeVec, 2)))
         end

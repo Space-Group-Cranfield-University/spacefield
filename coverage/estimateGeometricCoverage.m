@@ -26,11 +26,11 @@ function coverage = estimateGeometricCoverage(rObsMat, dirSun, nTrg, nFold, Sens
     if ~D_trg
         integrand   = @(rTrgAugmented) ...
                     isTargetVisibleToConstellation_FOR(rTrgAugmented(1:3), ...
-                    rObsMat, dirSun, rTrgAugmented(4), nFold, SensorParameters, CONST.R_E + 100);
+                    rObsMat, dirSun, rTrgAugmented(4), nFold, SensorParameters);
     else
         integrand   = @(rTrgAugmented) ...
                     isTargetVisibleToConstellation_FOR(rTrgAugmented(1:3), ...
-                    rObsMat, dirSun, D_trg, nFold, SensorParameters, CONST.R_E + 100);
+                    rObsMat, dirSun, D_trg, nFold, SensorParameters);
     end
     rTrgAugmentedMat = sampleTargetPopulationFromDistribution(nTrg, fileNames, dataFolder, CONST.R_E);
     coverage = integrateMonteCarlo(rTrgAugmentedMat, integrand);

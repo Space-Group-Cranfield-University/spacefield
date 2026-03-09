@@ -3,7 +3,7 @@ function OBS = getConstellationRaDec(OBS)
         OBS(j).raDecMat = zeros(size(OBS(j).xMat, 1), 3);
         for k = 1:size(OBS(j).xMat, 1)          
             r = OBS(j).xMat(k, :);
-            raDec = convertPositionToRaDec(r);
+            raDec = convertPositionToRaDec(r, 1);
             OBS(j).raDecMat(k, :) = raDec';
         end
     end

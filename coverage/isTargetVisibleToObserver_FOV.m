@@ -1,7 +1,4 @@
-function bool = isTargetVisibleToObserver_FOV(rTrg, rObs, dirPointing, dirSun, D_t, SensorParameters, R_H)
-    if nargin < 7
-        R_H = 6471;
-    end
+function bool = isTargetVisibleToObserver_FOV(rTrg, rObs, dirPointing, dirSun, D_t, SensorParameters)
     if nargin < 6
         SensorParameters = getReducedSensorParameters;
     end
@@ -9,7 +6,7 @@ function bool = isTargetVisibleToObserver_FOV(rTrg, rObs, dirPointing, dirSun, D
     if ~isWithinFOV(rTrg, rObs, dirPointing, SensorParameters.halfFOV)
         return
     end
-    if ~isTargetVisibleToObserver_FOR(rTrg, rObs, dirSun, D_t, SensorParameters, R_H)
+    if ~isTargetVisibleToObserver_FOR(rTrg, rObs, dirSun, D_t, SensorParameters)
         return
     end
     bool = 1;

@@ -1,7 +1,4 @@
-function [raMat, decMat, visibilityCountMat] = getVisibilityGrid(rObsMat, dirSun, SensorParameters, D_trg, h_trg, N_radec, R_H)
-    if nargin < 7
-        R_H = 6471;
-    end
+function [raMat, decMat, visibilityCountMat] = getVisibilityGrid(rObsMat, dirSun, SensorParameters, D_trg, h_trg, N_radec)
     if nargin < 6
         N_radec = 1e2;
     end

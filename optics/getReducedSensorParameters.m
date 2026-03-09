@@ -18,5 +18,8 @@ function SensorParameters = getReducedSensorParameters(FOV, sensorType, radarTyp
         SensorParameters.sigma = convertArcsecToRad(8.3);
         SensorParameters.sensorType = "optical";
         SensorParameters.R_H = 6471;
+        SensorParameters.maxSlewAngle = getStandardGreedyOptions().maxSlewAngle;
+        SensorParameters.minEl = getStandardGreedyOptions().minEl;
+        SensorParameters.maxEl = getStandardGreedyOptions().maxEl;
     end
 end

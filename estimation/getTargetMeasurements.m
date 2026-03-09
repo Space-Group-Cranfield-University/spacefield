@@ -5,14 +5,23 @@ function [y, h, R] = getTargetMeasurements(timestep, kTarget, TRG, OBS, ObsTrgCr
     R = [];
     for kSensor = 1:size(OBS, 2)
         if ObsTrgCrossVisibilityMat(kSensor, kTarget)
-            hTemp = @(x) getOpticalMeasurement(x, OBS(kSensor).xMat(timestep, :)');
-            R_temp = getOpticalMeasurementNoiseCovariance(OBS(kSensor).SensorParameters);
+            if OBS(kSensor).SensorParameters.sensorType == "optical"
+                hTemp = @(x) getOpticalMeasurement(x, OBS(kSensor).xMat(timestep, :)');
+                R_temp = getOpticalMeasurementNoiseCovariance(OBS(kSensor).SensorParameters);
+            elseif OBS(kSensor).SensorParameters.sensorType == "radar"
+                hTemp = @(x) getRadarMeasurement...
+                    (x, OBS(kSensor).xMat(timestep, :)', OBS(kSensor).SensorParameters);
+                R_temp = ...
+                    getRadarMeasurementNoiseCovariance...
+                    (TRG(kTarget).xMat(timestep, :)', ...
+                    OBS(kSensor).xMat(timestep, :)', ...
+                    TRG(kTarget).D_t, OBS(kSensor).SensorParameters);
+            end
             y = [y; getMeasurement(TRG(kTarget).xMat(timestep, :)', hTemp, R_temp)];
             h = @(x) [h(x); hTemp(x)];
             R = blkdiag(R, R_temp);
         end
     end
-    test = 0;
 end
 
 function [y, h, R] = getTargetMeasurementsSingle(timestep, kTarget, TRG, OBS, ObsTrgCrossVisibilityMat)
