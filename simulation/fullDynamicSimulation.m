@@ -42,6 +42,7 @@ function [RESULTS, TRG, OBS] = ...
     sensorActivationMat = zeros(size(OBS, 2), size(timeVec, 2));
     targetVisibilityMat = zeros(size(TRG, 2), size(timeVec, 2));
     ObsTrgCrossVisibilityMat = zeros(size(OBS, 2), size(TRG, 2));
+    bestAvailableSensor = string(zeros(size(TRG, 2), size(timeVec, 2)));
 
     for j = 2:size(timeVec, 2)
         % Task sensor (this is the most computationally expensive step if
@@ -56,6 +57,17 @@ function [RESULTS, TRG, OBS] = ...
                                     (j, OBS, TRG, dirSunMat);
         sensorActivationMat(:, j)   = sum(ObsTrgCrossVisibilityMat, 2);
         targetVisibilityMat(:, j)   = sum(ObsTrgCrossVisibilityMat', 2);
+        for k = 1:size(TRG, 2)
+            for i = 1:size(OBS, 2)
+                sensorType = OBS(i).SensorParameters.sensorType;
+                if ObsTrgCrossVisibilityMat(i, k) && sensorType == "radar"
+                    bestAvailableSensor(k, j) = sensorType;
+                    break
+                elseif ObsTrgCrossVisibilityMat(i, k) && sensorType == "optical"
+                    bestAvailableSensor(k, j) = sensorType;
+                end
+            end
+        end
 
         % Apply Kalman filtering using the available measurements.
         % Computationally expensive, therfore it is possible to disable
@@ -85,8 +97,7 @@ function [RESULTS, TRG, OBS] = ...
             computeNumberOfTargetsTrackedOnce(targetVisibilityMat);
         [TRG, nWellTracked, nWellTrackedVec, isWellTrackedMat] = ...
             computeNumberOfWellTrackedTargets...
-            (TRG, targetVisibilityMat, deltaT, ...
-            OPTIONS.maxOrbitalFraction, OPTIONS.minTrackLength);
+            (TRG, targetVisibilityMat, bestAvailableSensor, deltaT, OPTIONS.minTrackLength);
         completeness = computeCompleteness(targetVisibilityMat);
         RESULTS.nTrackVec = nTrackVec;
         RESULTS.allTrackLengths = allTrackLengths;

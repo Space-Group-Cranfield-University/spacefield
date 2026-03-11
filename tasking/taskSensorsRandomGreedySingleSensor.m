@@ -17,7 +17,8 @@ function OBS = taskSensorsRandomGreedySingleSensor...
             %deltaAzElVec = rand([2, OPTIONS.nSamples]) .* deg2rad(90) - [0; deg2rad(45)];
             deltaAzElVec = (2*rand(2,OPTIONS.nSamples)-1) * OPTIONS.maxSlewAngle;
         end
-        if ~OPTIONS.lowPower || ~isEclipsed(OBS(k).xMat(timestep, 1:3)', dirSun)
+        if ~OPTIONS.lowPower || ~isEclipsed(OBS(k).xMat(timestep, 1:3)', dirSun) ...
+                || OBS(k).SensorParameters.sensorType == "radar"
             for j = 1:OPTIONS.nSamples
                 % We first check static pointing to avoid slewing when 
                 % unnecessary.

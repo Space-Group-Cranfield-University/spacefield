@@ -52,11 +52,12 @@ function RadarParameters = getStandardRadar(radarType)
     RadarParameters.maxSNR = 50; % [dB]
     RadarParameters.deltaT = 1; % Integration time [s]
     RadarParameters.minSNR = 5; % [dB]
-    RadarParameters.FOV = deg2rad(2);
+    RadarParameters.FOV = deg2rad(40);
     RadarParameters.halfFOV = RadarParameters.FOV / 2;
     RadarParameters.R_H = 6371;
     RadarParameters.alpha_e = -RadarParameters.maxEl;
-    RadarParameters.maxSlewAngle = deg2rad(60);
+    RadarParameters.maxSlewAngle = deg2rad(10);
     RadarParameters.isDoppler = 0;
     RadarParameters.uncertaintySNRdependent = 1;
+    RadarParameters.orbitalFractionWellTracked = 1;
 end

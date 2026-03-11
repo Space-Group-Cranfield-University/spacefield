@@ -11,10 +11,13 @@ function [nObservedTargets, nWeightedTargets, taggedTargets, targetWeights] = ..
         % visibility function.
         dirPointing = getPointingDirectionInECI(OBS, timestep);
         rTrg = TRG(k).xMat(timestep, 1:3)';
-        if OPTIONS.isTargetStateUncertain
+        if OPTIONS.isTargetStateUncertain ...
+                && ~(OBS.SensorParameters.sensorType == "radar")
             rTrg = rTrg + randn(3, 1) * OPTIONS.positionError;
         end
-        if OPTIONS.isTargetStateUncertain && norm(rTrg) < OPTIONS.positionError * OBS.SensorParameters.FOV
+        if OPTIONS.isTargetStateUncertain...
+                && norm(rTrg) < OPTIONS.positionError * OBS.SensorParameters.FOV ...
+                && ~(OBS(k).SensorParameters.sensorType == "radar")
             currTargetVisibility = 0;
         else
             currTargetVisibility = ...

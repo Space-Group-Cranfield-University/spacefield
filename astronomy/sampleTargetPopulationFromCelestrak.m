@@ -14,7 +14,7 @@ function TRG = sampleTargetPopulationFromCelestrak(N_t, DATA, sizeFileName, data
         'kep',cell(1, N_t),'x0', cell(1, N_t));
     for k = 1:N_t
         index = randi(size(DATA, 1));
-        a   = R + DATA.APOGEE(index) + DATA.PERIGEE(index) / 2;
+        a   = R + ( DATA.APOGEE(index) + DATA.PERIGEE(index) ) / 2;
         e   = (DATA.APOGEE(index) - DATA.PERIGEE(index)) / ...
             (2 * R + DATA.APOGEE(index) + DATA.PERIGEE(index));
         in  = deg2rad(DATA.INCLINATION(index));
