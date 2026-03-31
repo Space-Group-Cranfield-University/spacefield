@@ -2,6 +2,9 @@ function [meanCoverage, varCoverage, seasonalCoverageVec, timeVecSeason] = getSe
     yearInSeconds = 365*86400;
     timeVecSeason = linspace(0, yearInSeconds, n_t_season + 1);
     timeVecSeason = timeVecSeason(1:(end-1));
+    if nargin < 5
+        nFold = 1;
+    end
     if nargin < 4
         n_t_day_season = 5;
     end

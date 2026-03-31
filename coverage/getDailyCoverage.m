@@ -16,7 +16,7 @@ function [meanCoverage, varCoverage, dailyCoverageVec] = getDailyCoverage(timeVe
     dailyCoverageVec = zeros(1, size(timeVecDay, 2));
     for k = 1:size(timeVecDay, 2)
         rObsMat = getConstellationPositionMatrix(OBS, k);
-        dailyCoverageVec(k) = estimateGeometricCoverage(rObsMat, dirSun, nSamples, nFold);
+        dailyCoverageVec(k) = estimateGeometricCoverage(rObsMat, dirSun, nSamples, nFold, OBS(1).SensorParameters);
         if ~mod(k, 100)
             disp(string(k)+" / "+string(size(timeVecDay, 2)));
         end

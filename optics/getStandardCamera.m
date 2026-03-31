@@ -34,7 +34,7 @@ function CAMERA = getStandardCamera(CONST)
     CAMERA.tau = 0.1;
     CAMERA.tau_min = 1/120; % [s], min exposure time
     CAMERA.tau_max = 120; % [s], max exposure time
-    CAMERA.SNR_threshold = 5; % minimum signal to noise ratio for detectabel images. It is NOT in dB!!!
+    CAMERA.SNR_threshold = 10; % minimum signal to noise ratio for detectabel images. It is NOT in dB!!!
     CAMERA.saturation_threshold = 0.9; % camera saturates at S + N = n_ip * sat_threshold * C
     CAMERA.std_attitude = 8 / 206265; % Angular resolution due to attitude errors (assuming optical sensor is mounted on a CubeSat system)
 
