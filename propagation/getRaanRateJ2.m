@@ -3,5 +3,5 @@ function dOm = getRaanRateJ2(kep, CONST)
         CONST =  initializeAstronomicalConstants;
     end
     n = getMeanMotion(kep(1), CONST.MU_E);
-    dOm = - 1.5 * CONST.J2 * CONST.R_E_NORAD^2 * n * cos(kep(3)) / kep(1)^2;
+    dOm = - 1.5 * CONST.J2 * CONST.R_E_NORAD^2 * n * cos(kep(3)) /  ( kep(1) * (1 - kep(2)^2) )^2;
 end

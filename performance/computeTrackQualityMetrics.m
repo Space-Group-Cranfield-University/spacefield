@@ -22,6 +22,8 @@ function [TRG, nTrack, trackLength, tbt, nTrackVec, trackLengthVec, tbtVec, ...
         tbtVec(k) = mean(current_tbt);
     end
     nTrack = floor(mean(nTrackVec));
+    allTbts = allTbts * deltaT;
+    allTrackLengths = allTrackLengths * deltaT;
     trackLength = mean(trackLengthVec) * deltaT;
     tbt = mean(tbtVec) * deltaT;
 end

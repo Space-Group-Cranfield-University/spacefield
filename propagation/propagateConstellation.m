@@ -15,7 +15,7 @@
 
 function Constellation = propagateConstellation(timeVec, Constellation, includeJ2, CONST)
     if nargin < 3
-        includeJ2 = 0;
+        includeJ2 = 1;
     end
     if nargin < 5
         CONST = initializeAstronomicalConstants;
@@ -48,7 +48,7 @@ function Constellation = propagateConstellationJ2(timeVec, Constellation, CONST)
         T = Constellation(iSat).T;
         thetaVec = 2*pi * timeVec / T;
         n = 2 * pi / T;
-        for iTheta = 1:size(thetaVec, 2) 
+        for iTheta = 1:size(thetaVec, 2)
             currentKep = [Constellation(iSat).kep(1:5, 1); Constellation(iSat).kep(6, 1) + thetaVec(iTheta)];
             Om = currentKep(5);
             dOm = getRaanRateJ2(currentKep, CONST);
