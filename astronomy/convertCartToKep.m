@@ -82,9 +82,12 @@ function kep = convertCartToKep(y, mu)
         return
     end
     if e_vect(3) < 0
-        om = 2*pi - acos(N*e_vect/(e*norm(N)));
+        om = 2*pi - acos(N*e_vect/(e*norm(N)+eps));
     else
-        om = acos(N*e_vect/(e*norm(N)));
+        om = acos(N*e_vect/(e*norm(N)+eps));
+    end
+    if ~isreal(om)
+        error("Argument of perigee is not real")
     end
     if N(2) < 0
         OM = 2*pi - acos(N(1)/norm(N));
