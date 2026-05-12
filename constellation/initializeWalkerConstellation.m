@@ -17,7 +17,7 @@
 %                   information. The initial state of satellite k of the
 %                   constellation can be found in Constellation(k).x0.
 
-function [Constellation, rMat] = initializeWalkerConstellation(Parameters, SensorParameters, Constants)
+function [Constellation, rMat] = initializeWalkerConstellation(Parameters, SensorParameters, dirPointing, Constants)
     if nargin < 1
         Parameters.h = 400;
         Parameters.nOrb = 5;
@@ -29,6 +29,9 @@ function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Senso
         SensorParameters = getReducedSensorParameters;
     end
     if nargin < 3
+        dirPointing = 0;
+    end
+    if nargin < 4
         Constants = initializeAstronomicalConstants();
     end
 
@@ -58,10 +61,10 @@ function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Senso
         for k = 1:nSatOrb
             Constellation(k+N).a = Constants.R_E + h;
             Constellation(k+N).T = computeOrbitalPeriod(a);
-            Constellation(k+N).e = 1e-6;
+            Constellation(k+N).e = 1e-4;
             Constellation(k+N).in = in;
             Constellation(k+N).raan = raan;
-            Constellation(k+N).aop = 0;
+            Constellation(k+N).aop = 1e-3;
             Constellation(k+N).v = (k - 1) * 2*pi/nSatOrb + (j-1) * F * 2 * pi / N_t;
             Constellation(k+N).kep  = [Constellation(k+N).a Constellation(k+N).e ...
                                     Constellation(k+N).in Constellation(k+N).raan ...
@@ -71,5 +74,5 @@ function [Constellation, rMat] = initializeWalkerConstellation(Parameters, Senso
     end
     rMat = getConstellationPositionMatrix(Constellation);
     Constellation = setConstellationSensors(Constellation, SensorParameters);
-    Constellation = setInitialPointingDirections(0, Constellation);
+    Constellation = setInitialPointingDirections(dirPointing, Constellation);
 end

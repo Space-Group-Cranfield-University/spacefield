@@ -36,6 +36,9 @@ function [RESULTS, TRG, OBS] = ...
     if ~isfield(OPTIONS, "TASKING_OPTIONS")
         OPTIONS.TASKING_OPTIONS = getStandardGreedyOptions;
     end
+    if ~isfield(OPTIONS, "OPTIONS.nStepAlert")
+        OPTIONS.nStepAlert = 100;
+    end
 
     deltaT = timeVec(2) - timeVec(1);
     tic
@@ -80,14 +83,14 @@ function [RESULTS, TRG, OBS] = ...
         end
 
         % Display step
-        if OPTIONS.verbose && ~mod(j, 100)
+        if OPTIONS.verbose && ~mod(j, OPTIONS.nStepAlert)
             disp(string(j) + " / "+string(size(timeVec, 2)))
         end
     end
-    RESULTS.sensorActivationMat = sensorActivationMat;
+    RESULTS.sensorActivationMat = sensorActivationMat; 
     RESULTS.targetVisibilityMat = targetVisibilityMat;
     if OPTIONS.verbose
-        disp("Simulation complete, time [s]: "+toc)
+        disp("Simulation complete, time [s]: "+toc+", time: "+string(datetime))
     end
     tic
     if OPTIONS.postProcessing

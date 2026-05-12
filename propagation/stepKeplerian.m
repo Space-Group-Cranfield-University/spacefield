@@ -1,4 +1,4 @@
-function xNext = propagateKeplerian(xPrev, deltaT, mu)
+function xNext = stepKeplerian(xPrev, deltaT, mu)
     if nargin < 3
         mu = initializeAstronomicalConstants().MU_E;
     end
