@@ -22,5 +22,6 @@ function SensorParameters = getReducedSensorParameters(FOV, sensorType, radarTyp
         SensorParameters.minEl = getStandardGreedyOptions().minEl;
         SensorParameters.maxEl = getStandardGreedyOptions().maxEl;
         SensorParameters.orbitalFractionWellTracked = 0.5;
+        SensorParameters.pointingDirBody = [0 0]';
     end
 end

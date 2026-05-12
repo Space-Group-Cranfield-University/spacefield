@@ -6,6 +6,9 @@ function [nObservedTargets, nWeightedTargets, taggedTargets, targetWeights] = ..
     nWeightedTargets = 0;
     taggedTargets = [];
     targetWeights = [];
+    if max(size(OBS(k).SensorParameters)) > 1
+        error("Tasking strategy supports only one sensor per satellite.")
+    end
     for k = 1:size(TRG, 2)
         % Pointing direction must be converted to ECI to work within
         % visibility function.

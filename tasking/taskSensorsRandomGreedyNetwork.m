@@ -1,6 +1,5 @@
 function OBS = taskSensorsRandomGreedyNetwork...
         (timestep, OBS, TRG, prevObsTrgCrossVisibilityMat, dirSun, OPTIONS)
-    
     bestObservedTargets = 0;
     bestPointingDirSet = zeros(3, size(OBS, 2));
     bestAzElSet = zeros(2, size(OBS, 2));

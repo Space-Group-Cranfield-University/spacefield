@@ -5,6 +5,9 @@ function OBS = taskSensorsSingleTarget...
     end
     rTrg = TRG.xMat(timestep, 1:3)';
     for k = 1:size(OBS, 2)
+        if max(size(OBS(k).SensorParameters)) > 1
+            error("Tasking strategy supports only one sensor per satellite.")
+        end
         rObs = OBS(k).xMat(timestep, 1:3)';
         dr = rTrg - rObs;
         prePoint = OBS(k).pointingMat(timestep - 1, :)';

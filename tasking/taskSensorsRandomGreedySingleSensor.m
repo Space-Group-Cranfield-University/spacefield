@@ -2,6 +2,9 @@ function OBS = taskSensorsRandomGreedySingleSensor...
     (timestep, OBS, TRG, prevObsTrgCrossVisibilityMat, dirSun, OPTIONS)
 
     for k = 1:size(OBS, 2)
+        if max(size(OBS(k).SensorParameters)) > 1
+            error("Tasking strategy supports only one sensor per satellite.")
+        end
         prevPointingDir = OBS(k).pointingMat(timestep - 1, :)';
         prevAzEl = convertPositionToRaDec(prevPointingDir);
         if abs(prevAzEl - 1) > 1e-6
