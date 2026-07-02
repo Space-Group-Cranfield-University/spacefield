@@ -46,7 +46,6 @@ function [RESULTS, TRG, OBS] = ...
     targetVisibilityMat = zeros(size(TRG, 2), size(timeVec, 2));
     ObsTrgCrossVisibilityMat = zeros(size(OBS, 2), size(TRG, 2));
     bestAvailableSensor = string(zeros(size(TRG, 2), size(timeVec, 2)));
-
     for j = 2:size(timeVec, 2)
         % Task sensor (this is the most computationally expensive step if
         % using a complex tasking strategy)
@@ -84,13 +83,13 @@ function [RESULTS, TRG, OBS] = ...
 
         % Display step
         if OPTIONS.verbose && ~mod(j, OPTIONS.nStepAlert)
-            disp(string(j) + " / "+string(size(timeVec, 2)))
+            disp("Current timestep: "+ string(j) + " / "+string(size(timeVec, 2))+", time elapsed [s]: "+toc)
         end
     end
     RESULTS.sensorActivationMat = sensorActivationMat; 
     RESULTS.targetVisibilityMat = targetVisibilityMat;
     if OPTIONS.verbose
-        disp("Simulation complete, time [s]: "+toc+", time: "+string(datetime))
+        disp("Simulation complete, time [s]: "+toc+", current datetime: "+string(datetime))
     end
     tic
     if OPTIONS.postProcessing
