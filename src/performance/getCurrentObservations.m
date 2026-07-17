@@ -6,6 +6,6 @@ function currentObservations = getCurrentObservations(ObsTrgCrossVisibilityMat)
     nObs = size(ObsTrgCrossVisibilityMat, 1);
     obsID = mod(nonZeroIndexesObs, nObs);
     obsID(obsID == 0) = nObs;
-    trgID = (nonZeroIndexesObs - obsID) / nObs;
+    trgID = 1 + (nonZeroIndexesObs - obsID) / nObs;
     currentObservations = [obsID, trgID];
 end
