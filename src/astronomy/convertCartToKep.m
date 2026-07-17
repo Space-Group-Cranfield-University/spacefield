@@ -69,9 +69,9 @@ function kep = convertCartToKep(y, mu)
         return
     end
     if r'*v < 0
-        theta = 2*pi - acos(e_vect'*r/(e*norm(r)));
+        theta = 2*pi - real(acos(e_vect'*r/(e*norm(r))));
     else
-        theta = acos(e_vect'*r/(e*norm(r)));
+        theta = real(acos(e_vect'*r/(e*norm(r))));
     end
     if norm(N) < 1e-15
         disp("Warning in convert_cart2kep() - Equatorial orbit")

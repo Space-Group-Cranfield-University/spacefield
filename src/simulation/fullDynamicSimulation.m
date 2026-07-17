@@ -46,6 +46,7 @@ function [RESULTS, TRG, OBS] = ...
     targetVisibilityMat = zeros(size(TRG, 2), size(timeVec, 2));
     ObsTrgCrossVisibilityMat = zeros(size(OBS, 2), size(TRG, 2));
     bestAvailableSensor = string(zeros(size(TRG, 2), size(timeVec, 2)));
+    ObservationList(1).currentObservations = [];
     for j = 2:size(timeVec, 2)
         % Task sensor (this is the most computationally expensive step if
         % using a complex tasking strategy)
@@ -57,6 +58,7 @@ function [RESULTS, TRG, OBS] = ...
         % Compute which targets are visible to which observers.
         ObsTrgCrossVisibilityMat    = fullObsTrgVisibilityTest...
                                     (j, OBS, TRG, dirSunMat);
+        ObservationList(j).currentObservations = getCurrentObservations(ObsTrgCrossVisibilityMat);
         sensorActivationMat(:, j)   = sum(ObsTrgCrossVisibilityMat, 2);
         targetVisibilityMat(:, j)   = sum(ObsTrgCrossVisibilityMat', 2);
         for k = 1:size(TRG, 2)
@@ -88,6 +90,7 @@ function [RESULTS, TRG, OBS] = ...
     end
     RESULTS.sensorActivationMat = sensorActivationMat; 
     RESULTS.targetVisibilityMat = targetVisibilityMat;
+    RESULTS.ObservationList = ObservationList;
     if OPTIONS.verbose
         disp("Simulation complete, time [s]: "+toc+", current datetime: "+string(datetime))
     end
