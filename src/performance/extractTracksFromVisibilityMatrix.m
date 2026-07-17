@@ -10,7 +10,7 @@ function TRG = extractTracksFromVisibilityMatrix(TRG, targetVisibilityMat)
                 tPrev = 1;
             end
             if targetVisibilityMat(k, j) == 0 && tPrev == 1
-                TRG(k).track(trackIndex, 2) = j;
+                TRG(k).track(trackIndex, 2) = j - 1;
                 tPrev = 0;
                 trackIndex = trackIndex + 1;
             end
